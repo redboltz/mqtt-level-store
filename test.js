@@ -67,23 +67,27 @@ describe('mqtt.connect flow', function () {
       incomingStore: manager.incoming,
       outgoingStore: manager.outgoing
     })
-
-    client.publish('hello', 'world', {qos: 1})
+    var count = 0
+    client.publish('hello1', 'world1', {qos: 1})
+    client.publish('hello2', 'world2', {qos: 1})
+    client.publish('hello3', 'world3', {qos: 1})
 
     server.once('client', function (serverClient) {
       serverClient.once('publish', function () {
         serverClient.stream.destroy()
 
         manager.outgoing.createStream().pipe(concat(function (list) {
-          list.length.should.equal(1)
+          list.length.should.equal(3)
         }))
       })
-
       server.once('client', function (serverClient2) {
-        serverClient2.once('publish', function (packet) {
+        serverClient2.on('publish', function (packet) {
+          console.log(packet)
           serverClient2.puback(packet)
-          client.end()
-          done()
+          if (++count === 3) {
+            client.end()
+            done()
+          }
         })
       })
     })
