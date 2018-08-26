@@ -10,6 +10,8 @@ var Connection = require('mqtt-connection')
 var concat = require('concat-stream')
 var net = require('net')
 
+console.log('hello')
+
 describe('mqtt level store', function () {
   abstractTest(function (done) {
     done(null, mqttLevelStore.single({ level: level() }))
@@ -120,6 +122,7 @@ describe('mqtt.connect flow', function () {
       })
       server.once('client', function (serverClient2) {
         serverClient2.on('publish', function (packet) {
+          console.log(packet)
           serverClient2.puback(packet)
           switch (serverCount++) {
             case 0:
