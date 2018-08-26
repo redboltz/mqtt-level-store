@@ -45,25 +45,35 @@ describe('mqtt.connect flow', function () {
   var manager
 
   beforeEach(function (done) {
+    console.log('new server')
     server = new net.Server()
+    console.log('server listen')
     server.listen(8883, done)
 
+    console.log('server before connect')
     server.on('connection', function (stream) {
+      console.log('server after connect')
       var client = Connection(stream)
 
       client.on('connect', function () {
+        console.log('client on connect')
         client.connack({returnCode: 0})
       })
 
+      console.log('emit client')
       server.emit('client', client)
     })
 
+    console.log('create level store')
     manager = mqttLevelStore({ level: level() })
   })
 
   afterEach(function (done) {
+    console.log('after each')
     manager.close(function () {
+      console.log('manager closed')
       server.close(function () {
+        console.log('server closed')
         done()
       })
     })
