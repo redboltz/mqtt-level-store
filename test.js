@@ -112,6 +112,10 @@ describe('mqtt.connect flow', function () {
     server.once('client', function (serverClient) {
       serverClient.on('publish', function () {
         serverClient.stream.destroy()
+
+        manager.outgoing.createStream().pipe(concat(function (list) {
+          list.length.should.equal(3)
+        }))
       })
       server.once('client', function (serverClient2) {
         serverClient2.on('publish', function (packet) {
@@ -125,14 +129,9 @@ describe('mqtt.connect flow', function () {
               break
             case 2:
               packet.payload.toString().should.equal('payload3')
-              setTimeout(function () {
-                // make sure additional publish shouldn't be received
-                serverCount.should.equal(3)
-                client.end()
-                done()
-              }, 200)
-              break
-            default:
+              serverCount.should.equal(3)
+              client.end()
+              done()
               break
           }
         })
