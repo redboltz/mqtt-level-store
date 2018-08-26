@@ -98,6 +98,7 @@ describe('mqtt.connect flow', function () {
   })
 
   it('should resend messages by published order', function (done) {
+    this.timeout(10000)
     var serverCount = 0
     var client = mqtt.connect({
       port: 8883,
