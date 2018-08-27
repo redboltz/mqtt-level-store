@@ -133,31 +133,32 @@ describe('mqtt.connect flow', function () {
           console.log('length check')
           list.length.should.equal(3)
         }))
-        server.once('client', function (serverClient2) {
-          console.log('2nd connect')
-          serverClient2.on('publish', function (packet) {
-            console.log(packet)
-            serverClient2.puback(packet)
-            switch (serverCount++) {
-              case 0:
-                packet.payload.toString().should.equal('payload1')
-                break
-              case 1:
-                packet.payload.toString().should.equal('payload2')
-                break
-              case 2:
-                packet.payload.toString().should.equal('payload3')
-                setTimeout(function () {
-                  // make sure additional publish shouldn't be received
-                  serverCount.should.equal(3)
-                  client.end()
-                  done()
-                }, 200)
-                break
-              default:
-                break
-            }
-          })
+      })
+
+      server.once('client', function (serverClient2) {
+        console.log('2nd connect')
+        serverClient2.on('publish', function (packet) {
+          console.log(packet)
+          serverClient2.puback(packet)
+          switch (serverCount++) {
+            case 0:
+              packet.payload.toString().should.equal('payload1')
+              break
+            case 1:
+              packet.payload.toString().should.equal('payload2')
+              break
+            case 2:
+              packet.payload.toString().should.equal('payload3')
+              setTimeout(function () {
+                // make sure additional publish shouldn't be received
+                serverCount.should.equal(3)
+                client.end()
+                done()
+              }, 200)
+              break
+            default:
+              break
+          }
         })
       })
     })
