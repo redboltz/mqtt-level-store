@@ -7,9 +7,12 @@ node_js:
 - '6'
 - '7'
 - '8'
+- '9'
+- '10'
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
+      - g++-7
+      - node-nan
