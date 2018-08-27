@@ -69,6 +69,7 @@ describe('mqtt.connect flow', function () {
   })
 
   afterEach(function (done) {
+    this.timeout(10000)
     console.log('after each')
     manager.close(function () {
       console.log('manager closed')
@@ -80,6 +81,7 @@ describe('mqtt.connect flow', function () {
   })
 
   it('should resend messages', function (done) {
+    this.timeout(10000)
     var client = mqtt.connect({
       port: 8883,
       incomingStore: manager.incoming,
