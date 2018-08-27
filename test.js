@@ -61,14 +61,6 @@ describe('mqtt.connect flow', function () {
     manager = mqttLevelStore({ level: level() })
   })
 
-  afterEach(function (done) {
-    manager.close(function () {
-      server.close(function () {
-        done()
-      })
-    })
-  })
-
   it('should resend messages by published order', function (done) {
     var serverCount = 0
     var client = mqtt.connect({
