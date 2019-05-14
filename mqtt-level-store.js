@@ -1,7 +1,7 @@
 'use strict'
 
-var level = require('level-browserify')
-var sublevel = require('level-sublevel')
+var level = require('level')
+var sublevel = require('level-sublevel/legacy')
 var msgpack = require('msgpack5')
 
 function Store (options) {
