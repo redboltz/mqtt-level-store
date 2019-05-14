@@ -99,7 +99,6 @@ Store.prototype.del = function (packet, cb) {
           ]
           that._level.batch(
             cmd,
-            that._levelOpts,
             function (err) {
               if (err) return cb(err)
               cb(null, _packet)
